@@ -1,0 +1,10 @@
+xSize 10
+ySize 10
+nGhost 1
+dx 0.1
+dy 0.1
+type SOR
+iterMax 200
+TOL 1e-10
+Omega 1.7
+NormType 2

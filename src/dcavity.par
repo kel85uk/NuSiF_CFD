@@ -1,0 +1,47 @@
+#===================================================================================================
+#                           Driven Cavity (Part I)
+#===================================================================================================
+
+# Problem specific Data:
+# ---------------------
+
+name dcavity
+
+gx    0.0			# Body forces (e.g. gravity)
+gy    0.0			#
+
+Re    10.0		    # Reynolds number
+   
+U_init    0.0		# initial value for velocity in x-direction
+V_init    0.0		# initial value for velocity in y-direction
+P_init    1.0		# initial value for pressure
+
+
+
+# Geometry Data:
+# -------------
+
+xlength    1.0		# domain size in x-direction
+ylength    1.0		# domain size in y-direction
+imax       20		# number of interior cells in x-direction
+jmax       20		# number of interior cells in y-direction
+
+
+# Time Data:
+# ---------
+
+dt         0.0002	# time stepsize
+timesteps  200      # nr of timesteps
+
+
+
+# Pressure Iteration Data:
+# -----------------------
+
+itermax                1000		# maximal number of pressure iteration in one time step
+eps                    1e-4    		# stopping tolerance for pressure iteration
+omg	               1.8		# relaxation parameter for SOR iteration
+gamma                  0.9		# upwind differencing factor gamma
+checkfrequency         5		# every n'th time the residuum is calculated and checked against eps
+normalizationfrequency 100		# every n'th time the pressure is centered around 0
+#====================================================================================================
