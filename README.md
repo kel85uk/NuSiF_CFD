@@ -13,6 +13,14 @@ Added features:
 ->  CG solver for the pressure poisson correction (continuity) equation
 ->  Arbitrary obstacle geometry from a png graphics file
 
+First example:
+1. Create a build directory in the NuSiF_CFD root directory, e.g. "/${NuSiF_root}/build"
+2. cd to the build directory, e.g. "cd /${NuSiF_root}/build"
+3. In the build directory, run cmake with reference to the NuSiF_CFD root directory, e.g. "cmake /${NuSiF_root}"
+4. Copy the files customMesh.png, and EnhancedFluidSimTest.par from Results_from_tests directory into the same directory as the compiled executable created inside the build directory, e.g. "cp /${NuSiF_root}/Results_from_tests/readFromPNG/EnhancedFluidSimTest.par /${NuSiF_root}/build/tests"
+5. Run the code "./EnhancedFluidSimTest"
+6. Post-process the vtk files with Paraview or Visit.
+
 TODO:
 ->  Precondition CG
 ->  Algebraic Multigrid
