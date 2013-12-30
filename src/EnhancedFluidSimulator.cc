@@ -70,7 +70,7 @@ void EnhancedFluidSimulator::simulate             ( real duration              )
 		EnhancedFluidSimulator::setUVBC2D();
 		EnhancedFluidSimulator::computeFG();
 		EnhancedFluidSimulator::composeRHS2D();
-		psolver_.solve_PCG(grid_,mesh_);
+		psolver_.solve_SOR1(grid_,mesh_);
 		EnhancedFluidSimulator::adapUV2D();
 		if(i%pnorm_ == 0){
 			EnhancedFluidSimulator::normalizePressure();
