@@ -16,21 +16,48 @@
 */
 #include "MatrixCOO.hh"
 
-
-
 //===================================================================================================================
 //
 //  Constructors
 //
 //===================================================================================================================
-
-
-void mat_set(int i, int j, double value, vector<element>& data){
-	data.push_back(make_tuple(i,j,value));
-	sort(data.begin(),data.end(),mycompare);
+MatrixCOO::MatrixCOO(){
 }
 
-bool mycompare (const element &lhs, const element &rhs){
-	if(get<0>(lhs) != get<0>(rhs)) return get<0>(lhs) < get<0>(rhs);
-  else return get<1>(lhs) < get<1>(rhs);
+MatrixCOO::MatrixCOO(Array& dense2D){
+	length_x = dense2D.getSize(0);
+	length_y = dense2D.getSize(1);
+	Nnz_ = 0;
+	for (int i = 0; i < length_x; ++i)
+		for (int j = 0; j < length_y; ++j)
+			if (!d_equal_str_gen(dense2D(i,j),0.)){
+				MatrixCOO::mat_set(i,j,dense2D(i,j));
+			}
+  for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
+  		rows_.push_back(get<0>(*iter));
+  		cols_.push_back(get<1>(*iter));
+  		values_.push_back(get<2>(*iter));
+  }
+}
+
+//===================================================================================================================
+//
+//  Essential Functions to make life easier
+//
+//===================================================================================================================
+void MatrixCOO::mat_set(int i, int j, double value){
+	this->data.push_back(make_tuple(i,j,value));
+	sort(this->data.begin(),this->data.end(),myobject);
+	++this->Nnz_;
+}
+
+void MatrixCOO::speye(int n){
+	for (int i = 0; i < n; ++i)
+		this->data.push_back(make_tuple(i,i,1.0));	
+}
+
+void MatrixCOO::print_sp(){
+  for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
+  		cout << "[" << get<0>(*iter) << "," << get<1>(*iter) << "]\t" << get<2>(*iter) << endl;
+  }
 }
