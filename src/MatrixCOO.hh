@@ -66,7 +66,7 @@ public:
 	 //Convenient functions
 	 void speye(int n); //Create sparse Identity matrix
 	 
-	 Array matvec(Array& Y); //Matvec operation
+	 Array mvmult(Array& Y); //Matvec operation
 
  	 MatrixCOO transpose(); //Transpose matrix
 

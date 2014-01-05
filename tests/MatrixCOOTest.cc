@@ -20,9 +20,12 @@
 int main( )
 {
 	MatrixCOO sparseTest, speyeTest;
-	Array	testmat(3,3);
+	Array	testmat(3,3), testvec(3), result(3);
 	testmat(1,2) = -4.0;
 	testmat(2,1) = 4.0;
+	for (int i = 0; i < testvec.getSize(); ++i)
+		testvec(i) = i+1;
+		
 	MatrixCOO sparsearrTest(testmat);
 	sparseTest.mat_set(1,1,3);
 	sparseTest.mat_set(0,1,2);
@@ -30,9 +33,11 @@ int main( )
 	sparseTest.mat_set(0,0,6);
 	sparseTest.mat_set(1,0,2);
 	sparseTest.print_sp();
-	speyeTest.speye(5);
+	speyeTest.speye(3);
 	speyeTest.print_sp();
 	sparsearrTest.print_sp();
 	testmat.print2();
+	result = speyeTest.mvmult(testvec);
+	result.print();
 	return 0;
 }

@@ -33,11 +33,6 @@ MatrixCOO::MatrixCOO(Array& dense2D){
 			if (!d_equal_str_gen(dense2D(i,j),0.)){
 				MatrixCOO::mat_set(i,j,dense2D(i,j));
 			}
-  for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
-  		rows_.push_back(get<0>(*iter));
-  		cols_.push_back(get<1>(*iter));
-  		values_.push_back(get<2>(*iter));
-  }
 }
 
 //===================================================================================================================
@@ -60,4 +55,16 @@ void MatrixCOO::print_sp(){
   for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
   		cout << "[" << get<0>(*iter) << "," << get<1>(*iter) << "]\t" << get<2>(*iter) << endl;
   }
+}
+
+Array MatrixCOO::mvmult(Array &Y){
+	Array result(Y.getSize());
+	result.fill(0.);
+	int index = 0;
+	int rowk, colk = 0;
+	for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
+		rowk = get<0>(*iter); colk = get<1>(*iter);
+		result(rowk) = result(rowk) + get<2>(*iter)*Y(colk);
+	}
+	return result;
 }
