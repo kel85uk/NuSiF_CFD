@@ -314,7 +314,7 @@ bool SORSolver::solve_PCG(StaggeredGrid& grid, Geometry2D& mesh){
 	}
 }
 
-bool SORSolver::solve_SOR1(StaggeredGrid& grid, Geometry2D& mesh){
+bool SORSolver::solve_SORRB(StaggeredGrid& grid, Geometry2D& mesh){
 	int i,j,nfluid;
 	int epsE, epsW, epsN, epsS = 0;
 	real rdx2,rdy2;
@@ -338,7 +338,7 @@ bool SORSolver::solve_SOR1(StaggeredGrid& grid, Geometry2D& mesh){
 				p0 += P(i,j)*P(i,j);
 	p0 = sqrt(p0/nfluid);
 	if (p0 < 0.0001)
-	 p0 = 1.0;  
+	 p0 = 1.0;
                                             /* SOR-iteration */
                                             /*---------------*/
 	for (iter_=0;(tol > TOL_*p0)&&(iter_ < iterMax_);++iter_){
@@ -346,13 +346,21 @@ bool SORSolver::solve_SOR1(StaggeredGrid& grid, Geometry2D& mesh){
 		                       /*----------------------------------*/
 		setBC(P,mesh,1);
 	
-		/* relaxation for fluid cells */
+		/* relaxation for fluid cells (RED-BLACK ordering) */
 		/*----------------------------*/
-		for (i=1;i<=imax;i+=1)
-		        for (j=1;j<=jmax;j+=1)
-			  if ((mesh(i,j) & C_F))
-			    P(i,j) = (1.-omg)*P(i,j) - beta_2*((P(i+1,j)+P(i-1,j))*rdx2 +	(P(i,j+1)+P(i,j-1))*rdy2 - RHS(i,j));
-	
+		
+		#pragma omp parallel for private(i)
+    for (j=1;j<=jmax;j+=1)
+			for (i=1+(j+1)%2;i<=imax;i+=2)    
+				if(mesh(i,j) & C_F)
+						P(i,j) = (1.-omg)*P(i,j) - beta_2*((P(i+1,j)+P(i-1,j))*rdx2 +	(P(i,j+1)+P(i,j-1))*rdy2 - RHS(i,j));				
+
+		#pragma omp parallel for private(i)
+    for (j=1;j<=jmax;j+=1)
+			for (i=1+(j)%2;i<=imax;i+=2)
+				if(mesh(i,j) & C_F)
+						P(i,j) = (1.-omg)*P(i,j) - beta_2*((P(i+1,j)+P(i-1,j))*rdx2 +	(P(i,j+1)+P(i,j-1))*rdy2 - RHS(i,j));				
+
 		/* computation of residual */
 		/*-------------------------*/
 		if (iter_%rescheckfreq_ == 0){

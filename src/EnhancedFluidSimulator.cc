@@ -18,6 +18,7 @@
 #include "EnhancedFluidSimulator.hh"
 #include "Array.hh"
 #include "GrayScaleImage.hh"
+#include <ctime>
 
 EnhancedFluidSimulator::EnhancedFluidSimulator(){
 }
@@ -81,13 +82,13 @@ void EnhancedFluidSimulator::simulate             ( real duration              )
 	real time = 0.;
 	duration = t_end;
 	VTKWriter vtkWriter ( grid_,mesh_, casename, true, true, true, false );
-
+	std::clock_t c_start = std::clock();
   while ((time < duration)&&(i<Ntimes_)){
 		EnhancedFluidSimulator::setDelta_t2D();  
 		EnhancedFluidSimulator::setUVBC2D();
 		EnhancedFluidSimulator::computeFG();
 		EnhancedFluidSimulator::composeRHS2D();
-		psolver_.solve_SOR1(grid_,mesh_);
+		psolver_.solve_SORRB(grid_,mesh_);
 		EnhancedFluidSimulator::adapUV2D();
 		if(i%pnorm_ == 0){
 			EnhancedFluidSimulator::normalizePressure();
@@ -101,8 +102,9 @@ void EnhancedFluidSimulator::simulate             ( real duration              )
 		std::cout << "Timestep: " << i << "\tTime: " << time << "\tDelta_t: " << dt_ << "\tPres. Iterations: " << psolver_.iterations() << std::endl;			
 	}
 	vtkWriter.write(mesh_,time);
+	std::clock_t c_end = std::clock();
 	PROGRESS("Finished time simulations\n");
-
+	std::cout << "CPU time used: " << 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC << " ms\n";
 }
 /** Simulates for a pre-determined number of time steps (Usually for testing new algorithms) */
 void EnhancedFluidSimulator::simulateTimeStepCount( unsigned int nrOfTimeSteps ){

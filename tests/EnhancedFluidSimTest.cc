@@ -20,7 +20,7 @@
 #include "Debug.hh"
 /** Include GrayScaleImage.hh as a custom user defined mesh which can be called from CustomMesh.hh in EnhancedFluidSimulator.cc */
 #include "GrayScaleImage.hh"
-
+#include <omp.h>
 #include <cmath>
 #include <iostream>
 #define PI (4.0*atan(1.0))
@@ -76,10 +76,14 @@ void ReadFile(FileReader &configu)
    CHECK_MSG(configread, "Could not open file 'EnhancedFluidSimTest.par' which has to be in the current directory.");
 }
 
-int main( )
+int main(int argc, char *argv[])
 {
  	 FileReader configu;
  	 ReadFile(configu);
+ 	 if(argc < 1)
+	 	 omp_set_num_threads(1);
+ 	 else
+ 	 	 omp_set_num_threads(atoi(argv[1]));
  	 EnhancedFluidSimulator FS(configu);
 	 PROGRESS("Initialize first grid");
    FS.simulate(configu.getRealParameter("t_end"));

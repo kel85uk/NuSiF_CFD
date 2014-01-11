@@ -20,6 +20,7 @@
 
 #include "StaggeredGrid.hh"
 #include "Geometry2D.hh"
+#include <omp.h>
 
 
 class SORSolver
@@ -36,7 +37,7 @@ public:
    // solve the pressure equation on the staggered grid with obstacles
    bool solve_CG( StaggeredGrid & grid, Geometry2D& mesh);
    bool solve_PCG( StaggeredGrid & grid, Geometry2D& mesh);
-   bool solve_SOR1( StaggeredGrid & grid, Geometry2D& mesh);
+   bool solve_SORRB( StaggeredGrid & grid, Geometry2D& mesh);
    int iterations();
    real residualnorm();
    inline int eps_E(int i, int j, Geometry2D&mesh);

@@ -2,8 +2,8 @@ cmake_minimum_required( VERSION 2.6 )
 
 project ( NuSiF )
 
-#set( CMAKE_CXX_COMPILER "/usr/bin/nvcc")
-set( CMAKE_CXX_FLAGS "-std=c++11 -Wall -Wconversion -Wshadow" )
+#set( CMAKE_CXX_COMPILER "icpc")
+set( CMAKE_CXX_FLAGS "-std=c++11 -fopenmp -Wall -Wconversion -Wshadow" )
 
 # Default build type
 if ( NOT CMAKE_BUILD_TYPE )

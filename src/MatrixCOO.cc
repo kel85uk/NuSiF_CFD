@@ -60,7 +60,7 @@ void MatrixCOO::print_sp(){
 Array MatrixCOO::mvmult(Array &Y){
 	Array result(Y.getSize());
 	result.fill(0.);
-	int index = 0;
+//	int index = 0;
 	int rowk, colk = 0;
 	for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
 		rowk = get<0>(*iter); colk = get<1>(*iter);
@@ -68,3 +68,5 @@ Array MatrixCOO::mvmult(Array &Y){
 	}
 	return result;
 }
+
+
