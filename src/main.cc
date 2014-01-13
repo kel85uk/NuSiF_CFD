@@ -17,6 +17,7 @@
 
 #include "Array.hh"
 #include "FileReader.hh"
+#include <MatrixCOO.hh>
 
 #include <iostream>
 
@@ -75,6 +76,7 @@ int main( int argc, char** argv )
 	D1.kron(Dxx,Iyy);
 	D2.kron(Ixx,Dyy);
 	D1 += D2;
+	MatrixCOO Amat;
 	D1.print2();
 	return 0;
 }

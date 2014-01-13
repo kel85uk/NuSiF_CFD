@@ -1,0 +1,1 @@
+/opt/intel/bin/icpc   -std=c++11 -fopenmp -Wall -Wconversion -Wshadow -O3 -DNDEBUG    CMakeFiles/MatrixCOOTest.dir/__/src/MatrixCOO.cc.o CMakeFiles/MatrixCOOTest.dir/__/src/Array.cc.o CMakeFiles/MatrixCOOTest.dir/__/src/Debug.cc.o CMakeFiles/MatrixCOOTest.dir/__/src/double_compares.cpp.o CMakeFiles/MatrixCOOTest.dir/MatrixCOOTest.cc.o  -o MatrixCOOTest -rdynamic 

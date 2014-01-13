@@ -78,8 +78,7 @@ bool SORSolver::solve( StaggeredGrid & grid ){
 				u_sol(i+NGhost,j+NGhost) = W_*ubar + Wm1*u_sol(i+NGhost,j+NGhost);
 			}
 		}
-//		PROGRESS("Done sweeping interior points");
-		//Update BC
+
 		setBC(u_sol,NGhost);
 		if (iter_%rescheckfreq_ == 0){
 			for (int i = 0; i < Nx; ++i)

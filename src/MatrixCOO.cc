@@ -25,14 +25,21 @@ MatrixCOO::MatrixCOO(){
 }
 
 MatrixCOO::MatrixCOO(Array& dense2D){
-	length_x = dense2D.getSize(0);
-	length_y = dense2D.getSize(1);
+	int length_x = dense2D.getSize(0);
+	int length_y = dense2D.getSize(1);
 	Nnz_ = 0;
 	for (int i = 0; i < length_x; ++i)
 		for (int j = 0; j < length_y; ++j)
 			if (!d_equal_str_gen(dense2D(i,j),0.)){
 				MatrixCOO::mat_set(i,j,dense2D(i,j));
 			}
+}
+
+MatrixCOO& MatrixCOO::operator = (const MatrixCOO &rhs)
+{
+	data = rhs.data;
+	Nnz_ = rhs.Nnz_;
+	return *this;
 }
 
 //===================================================================================================================
@@ -52,9 +59,39 @@ void MatrixCOO::speye(int n){
 }
 
 void MatrixCOO::print_sp(){
+//	auto index = this->data.begin() - this->data.begin();
   for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
-  		cout << "[" << get<0>(*iter) << "," << get<1>(*iter) << "]\t" << get<2>(*iter) << endl;
+//  		index = iter - data.begin();
+//  		cout << "[" << get<0>(data[index]) << "," << get<1>(*iter) << "]\t" << get<2>(*iter) << endl;
+		cout << "[" << get<0>(*iter) << "," << get<1>(*iter) << "]\t" << get<2>(*iter) << endl;
   }
+}
+
+MatrixCOO MatrixCOO::diags_sp(){
+	MatrixCOO D;
+	for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
+		if(get<0>(*iter) == get<1>(*iter))
+	  		D.mat_set(get<0>(*iter),get<1>(*iter),get<2>(*iter));
+  }
+  return D;
+}
+
+MatrixCOO MatrixCOO::tril(){
+	MatrixCOO L;
+	for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
+		if(get<0>(*iter) > get<1>(*iter))
+	  		L.mat_set(get<0>(*iter),get<1>(*iter),get<2>(*iter));
+  }
+  return L;
+}
+
+MatrixCOO MatrixCOO::triu(){
+	MatrixCOO U;
+	for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
+		if(get<0>(*iter) < get<1>(*iter))
+	  		U.mat_set(get<0>(*iter),get<1>(*iter),get<2>(*iter));
+  }
+  return U;
 }
 
 Array MatrixCOO::mvmult(Array &Y){

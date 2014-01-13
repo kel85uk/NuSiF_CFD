@@ -1,0 +1,4 @@
+/home/kklloh/Documents/FAU/NuSiF/NuSiF_CFD/build/tests/CMakeFiles/EnhancedFluidSimTest.dir
+/home/kklloh/Documents/FAU/NuSiF/NuSiF_CFD/build/tests/CMakeFiles/MatrixCOOTest.dir
+/home/kklloh/Documents/FAU/NuSiF/NuSiF_CFD/build/tests/CMakeFiles/PSolverTest.dir
+/home/kklloh/Documents/FAU/NuSiF/NuSiF_CFD/build/src/CMakeFiles/nusif.dir

@@ -1,0 +1,1 @@
+/opt/intel/bin/icpc   -std=c++11 -fopenmp -Wall -Wconversion -Wshadow -O3 -DNDEBUG    CMakeFiles/nusif.dir/FileReader.cc.o CMakeFiles/nusif.dir/Debug.cc.o CMakeFiles/nusif.dir/Array.cc.o CMakeFiles/nusif.dir/MatrixCOO.cc.o CMakeFiles/nusif.dir/double_compares.cpp.o CMakeFiles/nusif.dir/main.cc.o  -o nusif -rdynamic 

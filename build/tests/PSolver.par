@@ -1,0 +1,8 @@
+xlength 1
+ylength 1
+imax 4
+jmax 4
+itermax 2000
+eps 1e-3
+omg 1.8
+Solver 0

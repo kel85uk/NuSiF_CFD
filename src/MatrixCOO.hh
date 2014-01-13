@@ -54,11 +54,11 @@ public:
 	 
 	 void mat_set(int i, int j, double value); // Manually set an element inside the matrix
 
-	 MatrixCOO(const MatrixCOO& s);
+	 MatrixCOO(const MatrixCOO& s); //Not implemented yet
 
-/*   inline real & operator () ( int i ,int j );
+   inline real& operator () ( int i ,int j );
    
-   inline const real & operator () ( int i ,int j ) const; */
+   inline const real & operator () ( int i ,int j ) const;
   
    //Arithmetic Operators for MatrixCOOs
    MatrixCOO& operator= (const MatrixCOO &rhs);
@@ -67,8 +67,10 @@ public:
 	 void speye(int n); //Create sparse Identity matrix
 	 
 	 Array mvmult(Array& Y); //Matvec operation
-
- 	 MatrixCOO transpose(); //Transpose matrix
+	 MatrixCOO diags_sp();
+	 MatrixCOO tril();
+	 MatrixCOO triu();
+ 	 MatrixCOO transpose(); //Transpose matrix (Not implemented yet)
 
    // return total size of the MatrixCOO
    int getSize() const;
@@ -77,25 +79,17 @@ public:
    // other dimension values are not allowed
    int getSize(int dimension ) const;
    
-   // returns rows, cols, and values of the sparse matrix
+   // returns rows, cols, and values of the sparse matrix (Not implemented yet)
    vector<int> rows() const;
    vector<int> cols() const;
    vector<real> values() const;
 
    // Print the whole MatrixCOO ( for debugging purposes )
    void print_sp();
-   void printd();
+   void printd(); //Not implemented yet
 
-/*	 static bool mycompare (const element &lhs, const element &rhs);{
-		if(get<0>(lhs) != get<0>(rhs)) return get<0>(lhs) < get<0>(rhs);
-		else return get<1>(lhs) < get<1>(rhs);
-	 }*/
 private:
 	vector<element> data;
-	vector<int>	rows_, cols_;
-	vector<real> values_;
-	int length_x;
-	int length_y;
 	int Nnz_;
 };
 
@@ -108,19 +102,30 @@ private:
 
 
 // Operator() 2D
-/*
+
 inline real& MatrixCOO::operator ()(int i,int j)
 {
-	int index = i + length_x*j;
-	return *(arr + index);
+	static real result = 0;
+	for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
+		if((get<0>(*iter) == i) && (get<1>(*iter) == j)){
+			return get<2>(*iter);
+		}
+  }
+  return result;
 }
+
 
 inline const real & MatrixCOO::operator () ( int i ,int j ) const
 {
-	int index = i + length_x*j;
-	return *(arr+index);
+	static real result = 0;
+	for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
+		if((get<0>(*iter) == i) && (get<1>(*iter) == j)){
+			return get<2>(*iter);
+		}
+  }
+  return result;
 }
 
-*/
+
 #endif //MatrixCOO_HH
 
