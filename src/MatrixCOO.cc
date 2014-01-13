@@ -59,10 +59,7 @@ void MatrixCOO::speye(int n){
 }
 
 void MatrixCOO::print_sp(){
-//	auto index = this->data.begin() - this->data.begin();
   for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
-//  		index = iter - data.begin();
-//  		cout << "[" << get<0>(data[index]) << "," << get<1>(*iter) << "]\t" << get<2>(*iter) << endl;
 		cout << "[" << get<0>(*iter) << "," << get<1>(*iter) << "]\t" << get<2>(*iter) << endl;
   }
 }
@@ -95,9 +92,9 @@ MatrixCOO MatrixCOO::triu(){
 }
 
 Array MatrixCOO::mvmult(Array &Y){
+//	Array result(Y.getSize());
 	Array result(Y.getSize());
 	result.fill(0.);
-//	int index = 0;
 	int rowk, colk = 0;
 	for(auto iter = this->data.begin(); iter != this->data.end(); ++iter){
 		rowk = get<0>(*iter); colk = get<1>(*iter);

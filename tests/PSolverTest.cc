@@ -36,8 +36,8 @@ void initGridSetup1( StaggeredGrid & grid )
 void initGridSetup2( StaggeredGrid & grid )
 {
 	grid.p().randfill(-10,10);
-	for (int i = 0; i < grid.rhs().getSize(0); ++i)
-		for (int j = 0; j < grid.rhs().getSize(1); ++j)
+	for (int i = 1; i < grid.rhs().getSize(0)-1; ++i)
+		for (int j = 1; j < grid.rhs().getSize(1)-1; ++j)
 			grid.rhs()(i,j) = sin(2.0*grid.XC()(i,j)*PI);
 }
 
@@ -64,9 +64,11 @@ int main()
 	 Geometry2D mesh(grid);
 	 mesh.geom_init();
 	 initGridSetup1(grid);
+	 grid.p().print();
 	 bool res = solver.solve(grid,mesh,0);
-	 CHECK(res);	 	 
-//	 CHECK(solver.residualnorm() < configu.getRealParameter("eps"));
+	 CHECK(res);
+ 	 grid.p().print();
+	 CHECK(solver.residualnorm() < configu.getRealParameter("eps"));
 //*/
 	 
 /*	 initGridSetup2( grid );

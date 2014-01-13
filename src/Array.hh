@@ -69,7 +69,9 @@ public:
 	 bool operator != (const Array &rhs);	 
    const Array operator+ (const Array &other) const;
    const Array operator- (const Array &other) const;
-   const Array operator* (const Array &other) const;      
+   const Array operator* (const Array &other) const;
+   Array operator- () const; 
+   Array operator* (const real value) const;
 
 
 	 //Convenient functions
@@ -83,6 +85,9 @@ public:
 	 void diag(int dia,Array& s,int mode); //Modify the diagonals of a 2D array (same as Matlab) [Mode 1 = vector copied to array, Mode 0 = diagonal(k) of the array is extracted to a vector]
 	 
 	 real dot(Array& Y); //Dot product of array with another array
+	 real dotNC(Array& Y); //Dot product of array with another array (No dimensionality check)
+	 Array reshape(Array& Y,int nx,int ny);
+	 Array vectorize(Array& Y);
 	 real sum();
 	 real amax()	;
 	 real sumI(int offset); // Currently only for 1,2-D
@@ -94,6 +99,8 @@ public:
 	 void kron(Array& X, Array& Y); //Kronecker product
 	 
 	 real norm(std::string &s); // Norm of 1D array (vector) (1, 2 or inf)
+	 
+	 real norm2NC();
 	 
 	 Array normalize(); // Normalize vector
 	 

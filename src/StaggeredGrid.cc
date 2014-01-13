@@ -42,6 +42,13 @@ StaggeredGrid::StaggeredGrid ( int xSize, int ySize, int nGhost, real dx1, real 
 	F_ = temp_F_;
 	G_ = temp_G_;
 	user_array_ = temp_user_array_;
+	p_.fill(0);
+	rhs_.fill(0);
+	U_.fill(0);
+	V_.fill(0);
+	F_.fill(0);
+	G_.fill(0);
+	user_array_.fill(0);	
 	Array temp_XGridfH_ (xSize_ + 2*nGhost_, ySize_ + 2*nGhost_); //TODO! Need to correct these values at a later date
 	Array temp_YGridfH_ (xSize_ + 2*nGhost_, ySize_ + 2*nGhost_);
 	Array temp_XGridfV_ (xSize_ + 2*nGhost_, ySize_ + 2*nGhost_);
@@ -96,7 +103,14 @@ StaggeredGrid::StaggeredGrid ( const FileReader & configuration ){
 	V_ = temp_V_;
 	F_ = temp_F_;
 	G_ = temp_G_;
-	user_array_ = temp_user_array_;
+	user_array_ = temp_user_array_;	
+	p_.fill(0);
+	rhs_.fill(0);
+	U_.fill(0);
+	V_.fill(0);
+	F_.fill(0);
+	G_.fill(0);
+	user_array_.fill(0);
 	Array temp_XGridfH_ (xSize_ + 2*nGhost_, ySize_ + 2*nGhost_); //TODO! Need to correct these values at a later date
 	Array temp_YGridfH_ (xSize_ + 2*nGhost_, ySize_ + 2*nGhost_);
 	Array temp_XGridfV_ (xSize_ + 2*nGhost_, ySize_ + 2*nGhost_);

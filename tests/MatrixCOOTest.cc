@@ -37,7 +37,7 @@ int main( )
 	speyeTest.print_sp();
 	sparsearrTest.print_sp();
 //	testmat.print2();
-	result = sparseTest.diags_sp().mvmult(testvec);
+	result = sparseTest.mvmult(testvec);
 	result.print();
 	std::cout << sparseTest(0,1) << std::endl;
 	return 0;

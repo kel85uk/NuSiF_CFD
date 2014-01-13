@@ -48,11 +48,11 @@ public:
 
 private:
    int iterMax_,Hbctype_,Vbctype_;
-   int iter_, rescheckfreq_, solver_;
+   int iter_=0, rescheckfreq_=1, solver_=0;
+   int nfluid = 1;
    real W_ = 1.0;
    real TOL_ = 1e-2;
    real residual;
-   Array sol_;
    MatrixCOO Amat_;
    std::string nrmtype_;
 };

@@ -104,6 +104,7 @@ MatrixCOO PSolver::mat_assemble( StaggeredGrid& grid, Geometry2D& mesh ){
 
 bool PSolver::solve( StaggeredGrid& grid, Geometry2D& mesh, int solver ){
 	Amat_ = mat_assemble( grid,mesh );
+	nfluid = mesh.geom_nFluids();
 	switch(solver){
 		case 0:{return solve_PCG(grid);}
 		case 1:{return solve_SORRB(grid);}
@@ -112,6 +113,48 @@ bool PSolver::solve( StaggeredGrid& grid, Geometry2D& mesh, int solver ){
 }
 
 bool PSolver::solve_PCG(StaggeredGrid& grid){
+	int NxG = grid.p().getSize(0);
+	int NyG = grid.p().getSize(1);
+	Array SOL, b;
+	SOL = SOL.vectorize(grid.p());
+	b = b.vectorize(grid.rhs());
+	real tol = 1.0;
+/** Set variables for CG */
+	Array q(SOL);
+	Array Res(SOL);
+	Res.fill(0);
+	q.fill(0);
+	Array d(SOL);
+	d.fill(0);
+	real p0 = sqrt(SOL.dotNC(SOL));
+	real dnew, dold, d0, betak, alphak = 0.;
+	/** Initialize the CG loop **/
+	Res = -b - Amat_.mvmult(SOL); // res = b-Ax
+	d = Res;
+	dnew = Res.dotNC(Res);
+	d0 = dnew;
+	std::cout << Res.getSize(0) << std::endl;
+	std::cout << SOL.getSize(0) << std::endl;
+	std::cout << iter_ << ":" << dnew << std::endl;
+	while(iter_ < iterMax_ && dnew > TOL_*d0){
+		q = Amat_.mvmult(d);
+		alphak = dnew/(d.dotNC(q));
+		SOL = SOL + d*alphak;
+		if (iter_%50 == 0){
+			Res = -b - Amat_.mvmult(SOL);
+		}
+		else{
+			Res = Res - q*alphak;
+		}
+		dold = dnew;
+		dnew = Res.dotNC(Res);
+		betak = dnew/dold;
+		d = Res + d*betak;
+		++iter_;
+		std::cout << iter_ << ":" << dnew << std::endl;	
+	}
+	grid.p() = grid.p().reshape(SOL,NxG,NyG);
+	std::cout << iter_ << ":" << dnew << std::endl;	
 	return true;
 }
 

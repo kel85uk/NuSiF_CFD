@@ -188,6 +188,22 @@ const Array Array::operator- (const Array &other) const
 	return Array(*this) -= other;
 }
 
+Array Array::operator- () const
+{
+	Array result(*this);
+	result.fill(0);
+	result -= Array(*this);
+	return result;
+}
+
+Array Array::operator* (const real value) const
+{
+	Array result(*this);
+	for (int i=0; i<result.getSize();++i)
+		result(i) = value*result(i);
+	return result;
+}
+
 const Array Array::operator* (const Array &other) const
 {
 	CHECK_MSG(dim==2,"Original array is not a matrix!");
@@ -308,6 +324,32 @@ real Array::dot(Array& Y)
 		result_d += X(i)*Y(i);
 	return result_d;
 }
+// Calculate dot product of two 1D arrays (vectors)
+real Array::dotNC(Array& Y)
+{
+	Array X(*this);
+	CHECK_MSG((X.getSize() == Y.getSize()),"Vectors are of different sizes! \n");
+	real result_d = 0.;
+	for (int i = 0; i < X.getSize(); ++i)
+		result_d += X(i)*Y(i);
+	return result_d;
+}
+
+Array Array::reshape(Array& Y,int nx,int ny)
+{
+	Array X(nx,ny);
+	for (int i=0;i<Y.getSize();++i)
+		X(i) = Y(i);
+	return X;
+}
+
+Array Array::vectorize(Array& Y)
+{
+	Array X(Y.getSize());
+	for (int i=0;i<Y.getSize();++i)
+		X(i) = Y(i);
+	return X;
+}
 
 real Array::sum()
 {
@@ -424,6 +466,14 @@ real Array::norm(std::string &s)
 		return temp;
 	}
 	else return 0.;
+}
+
+real Array::norm2NC()
+{
+	real result = 0.;
+	for (int i = 0; i < length_t; ++i)
+		result += arr[i]*arr[i];
+	return sqrt(result);
 }
 
 Array Array::normalize()
