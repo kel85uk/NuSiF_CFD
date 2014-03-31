@@ -1,0 +1,13 @@
+
+#some comment
+   # mean comment not starting at the beginning of the line
+   
+
+exampleInt       42				 # comment after parameters...
+
+
+exampleReal		 42.4242
+
+
+exampleString    someStringValue
+

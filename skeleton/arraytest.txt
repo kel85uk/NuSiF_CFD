@@ -1,0 +1,10 @@
+# dimensions of the array
+width	10	# width of the array
+height	10	#height of the array
+	
+#double the following element in the array
+x	5		# column
+y	0		# row
+
+# initial value
+initial	1.4
